@@ -5,6 +5,7 @@
 ## 安装
 
 ```bash
+pnpm add rspress-plugin-code-block
 npm install rspress-plugin-code-block
 ```
 
@@ -30,7 +31,7 @@ export default defineConfig({
 ```markdown
 import { CodeBlock } from 'rspress-plugin-code-block';
 
-<CodeBlock src="./config.json" />
+<CodeBlock src="config.json" />
 ```
 
 ### 指定语言类型
@@ -38,7 +39,7 @@ import { CodeBlock } from 'rspress-plugin-code-block';
 ```markdown
 import { CodeBlock } from 'rspress-plugin-code-block';
 
-<CodeBlock src="./utils.js" language="javascript" />
+<CodeBlock src="utils.js" language="javascript" />
 ```
 
 ### 文件路径说明
@@ -47,17 +48,6 @@ import { CodeBlock } from 'rspress-plugin-code-block';
 - **支持任意位置**：文件可以放在docs目录的任何位置，不需要public目录
 - **自动语言识别**：根据文件扩展名自动识别语言类型
 - **纯静态嵌入**：在构建时读取文件内容，生成静态HTML
-
-### 旧版语法（已弃用）
-
-之前使用的markdown代码块语法仍然支持，但建议使用新的CodeBlock组件：
-
-```markdown
-```json src="./config.json"
-```
-
-```javascript src="./utils.js" type="javascript"
-```
 
 ## 支持的文件格式
 
@@ -71,47 +61,6 @@ import { CodeBlock } from 'rspress-plugin-code-block';
 - CSS: `.css`
 - Shell: `.sh`
 - 以及更多...
-
-## 完整示例
-
-### 文件结构
-```
-docs/
-├── index.mdx
-├── config/
-│   └── database.xml
-└── examples/
-    └── api.json
-```
-
-### 在MDX中使用
-```mdx
----
-title: 配置文档
----
-
-# 系统配置
-
-## 数据库配置
-
-数据库连接配置文件：
-
-```xml src="./config/database.xml"
-```
-
-## API配置
-
-API接口配置文件：
-
-```json src="./examples/api.json"
-```
-
-## 脚本示例
-
-启动脚本示例：
-
-```bash src="./scripts/start.sh"
-```
 
 ## 特点
 

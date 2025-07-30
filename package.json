@@ -1,6 +1,6 @@
 {
   "name": "rspress-plugin-code-block",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "Rspress plugin to import and display file contents as code blocks",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,6 +12,11 @@
   ],
   "author": "buyfakett",
   "license": "MIT",
+  "bugs": "https://github.com/buyfakett/rspress-plugin-code/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/buyfakett/rspress-plugin-code"
+  },
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "pnpm run build"

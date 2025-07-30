@@ -1,6 +1,6 @@
 {
   "name": "rspress-plugin-code-block",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Rspress plugin to import and display file contents as code blocks",
   "main": "dist/codeBlockPlugin.js",
   "types": "dist/codeBlockPlugin.d.ts",

@@ -10,22 +10,9 @@ npm install rspress-plugin-code-block
 
 ## 使用
 
-### 1. 在rspress.config.ts中注册插件
+### 1. 在MDX中使用
 
-```typescript
-import { defineConfig } from '@rspress/core';
-import { codeBlockPlugin } from 'rspress-plugin-code-block';
-
-export default defineConfig({
-  plugins: [
-    codeBlockPlugin()
-  ],
-});
-```
-
-### 2. 在MDX中使用
-
-安装插件后，您可以在MDX文件中直接使用CodeBlock组件：
+插件只提供 `CodeBlock` 组件，您需要在每个MDX文件中手动导入使用：
 
 ```mdx
 import { CodeBlock } from 'rspress-plugin-code-block';
@@ -40,6 +27,12 @@ import { CodeBlock } from 'rspress-plugin-code-block';
 
 <CodeBlock src="./example.ts" type="javascript" />
 ```
+
+### 2. 文件路径说明
+
+- 使用相对路径，相对于当前MDX文件的位置
+- 支持各种代码文件格式（.js, .ts, .py, .xml, .json等）
+- 插件会自动根据文件扩展名识别语言类型
 
 ### 3. Props
 
@@ -98,13 +91,13 @@ my-docs/
 
 下面是我们的JavaScript示例：
 
-<code src="../examples/example.js" />
+<CodeBlock src="../examples/example.js" />
 
 ## 工具函数
 
 这是一个TypeScript工具函数：
 
-<code src="../examples/utils.ts" />
+<CodeBlock src="../examples/utils.ts" />
 ```
 
 ## 开发

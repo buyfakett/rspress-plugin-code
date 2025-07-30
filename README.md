@@ -23,17 +23,22 @@ export default defineConfig({
 
 ## 使用方法
 
-在MDX文件中使用标准的markdown代码块语法，通过meta属性指定文件路径：
+### 使用 CodeBlock 组件
 
-### 基本用法
+在MDX文件中导入并使用 CodeBlock 组件：
 
 ```markdown
-```json src="./config.json"
+import { CodeBlock } from 'rspress-plugin-code-block';
+
+<CodeBlock src="./config.json" />
 ```
 
 ### 指定语言类型
 
-```javascript src="./utils.js" type="javascript"
+```markdown
+import { CodeBlock } from 'rspress-plugin-code-block';
+
+<CodeBlock src="./utils.js" language="javascript" />
 ```
 
 ### 文件路径说明
@@ -42,6 +47,17 @@ export default defineConfig({
 - **支持任意位置**：文件可以放在docs目录的任何位置，不需要public目录
 - **自动语言识别**：根据文件扩展名自动识别语言类型
 - **纯静态嵌入**：在构建时读取文件内容，生成静态HTML
+
+### 旧版语法（已弃用）
+
+之前使用的markdown代码块语法仍然支持，但建议使用新的CodeBlock组件：
+
+```markdown
+```json src="./config.json"
+```
+
+```javascript src="./utils.js" type="javascript"
+```
 
 ## 支持的文件格式
 

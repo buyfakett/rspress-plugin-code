@@ -2,11 +2,18 @@ import type { RspressPlugin } from '@rspress/core';
 import * as fs from 'fs';
 import * as path from 'path';
 
-interface CodeNode {
+interface JSXNode {
   type: string;
+  name?: string;
   lang?: string;
+  value?: string;
   meta?: string;
-  value: string;
+  attributes?: Array<{
+    type: string;
+    name: string;
+    value: string;
+  }>;
+  children?: any[];
 }
 
 interface FileInfo {
@@ -21,7 +28,7 @@ export function codeBlockPlugin(): RspressPlugin {
       remarkPlugins: [
         function() {
           // 使用Rspress内置的visit函数
-          const visit = (tree: any, type: string, callback: (node: CodeNode) => void) => {
+          const visit = (tree: any, type: string, callback: (node: JSXNode) => void) => {
             if (tree.type === type) {
               callback(tree);
             }
@@ -31,32 +38,45 @@ export function codeBlockPlugin(): RspressPlugin {
           };
 
           return (tree: any, file: FileInfo) => {
-            visit(tree, 'code', (node: CodeNode) => {
-              // 检查是否有src属性
-              const srcMatch = node.meta?.match(/src="([^"]+)"/);
-              if (srcMatch) {
-                const srcPath = srcMatch[1];
-                const currentDir = path.dirname(file.path);
-                const fullPath = path.resolve(currentDir, srcPath);
+            visit(tree, 'mdxJsxFlowElement', (node: JSXNode) => {
+              // 检查是否是CodeBlock组件
+              if (node.name === 'CodeBlock') {
+                const srcAttr = node.attributes?.find(attr => attr.name === 'src');
+                const languageAttr = node.attributes?.find(attr => attr.name === 'language');
                 
-                try {
-                  const content = fs.readFileSync(fullPath, 'utf-8');
+                if (srcAttr) {
+                  const srcPath = srcAttr.value;
+                  const currentDir = path.dirname(file.path);
+                  const fullPath = path.resolve(currentDir, srcPath);
                   
-                  // 更新节点内容
-                  node.value = content;
-                  
-                  // 处理type属性
-                  const typeMatch = node.meta?.match(/type="([^"]+)"/);
-                  if (typeMatch) {
-                    node.lang = typeMatch[1];
-                  } else {
-                    // 根据文件扩展名自动识别语言
-                    const ext = path.extname(fullPath).slice(1);
-                    node.lang = getLanguageFromExtension(ext);
+                  try {
+                    const content = fs.readFileSync(fullPath, 'utf-8');
+                    
+                    // 获取语言
+                    let language = '';
+                    if (languageAttr) {
+                      language = languageAttr.value;
+                    } else {
+                      const ext = path.extname(fullPath).slice(1);
+                      language = getLanguageFromExtension(ext);
+                    }
+                    
+                    // 将CodeBlock组件替换为代码块
+                    const newNode = {
+                      type: 'code',
+                      lang: language,
+                      meta: null,
+                      value: content
+                    };
+                    
+                    // 替换节点
+                    Object.assign(node, newNode);
+                  } catch (error) {
+                    const errorMessage = error instanceof Error ? error.message : String(error);
+                    node.type = 'code';
+                    node.lang = '';
+                    node.value = `<!-- 文件读取失败: ${srcPath} - ${errorMessage} -->`;
                   }
-                } catch (error) {
-                  const errorMessage = error instanceof Error ? error.message : String(error);
-                  node.value = `<!-- 文件读取失败: ${srcPath} - ${errorMessage} -->`;
                 }
               }
             });

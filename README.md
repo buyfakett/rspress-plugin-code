@@ -23,26 +23,30 @@ export default defineConfig({
 });
 ```
 
-### 2. 在markdown中使用
+### 2. 在MDX中使用
 
-在markdown文件中，你可以使用以下语法来导入文件内容：
+安装插件后，您可以在MDX文件中直接使用CodeBlock组件：
 
-```markdown
+```mdx
+import { CodeBlock } from 'rspress-plugin-code-block';
+
 # 我的文档
 
 这是一个JavaScript文件的示例：
 
-<code src="./example.js" />
+<CodeBlock src="./example.js" />
 
 这是一个TypeScript文件，但指定为javascript语法高亮：
 
-<code src="./example.ts" type="javascript" />
+<CodeBlock src="./example.ts" type="javascript" />
 ```
 
-### 3. 参数说明
+### 3. Props
 
-- `src` (必需): 要导入的文件路径，可以是相对路径
-- `type` (可选): 代码块的语法高亮类型，如果不提供则根据文件扩展名自动判断
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| src | string | 要显示的文件路径（必需） |
+| type | string | 语言类型，用于语法高亮（可选，默认根据文件扩展名自动识别） |
 
 ### 4. 支持的文件类型
 

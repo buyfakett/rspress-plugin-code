@@ -1,6 +1,6 @@
 # rspress-plugin-code-block
 
-一个Rspress插件，用于导入文件内容并以代码块形式渲染。
+一个Rspress插件，用于在构建时将文件内容嵌入到MDX文档中作为静态代码块。
 
 ## 安装
 
@@ -8,97 +8,102 @@
 npm install rspress-plugin-code-block
 ```
 
-## 使用
+## 配置
 
-### 1. 在MDX中使用
+在 `rspress.config.ts` 中添加插件：
 
-插件只提供 `CodeBlock` 组件，您需要在每个MDX文件中手动导入使用：
+```typescript
+import { defineConfig } from 'rspress/config';
+import { codeBlockPlugin } from 'rspress-plugin-code-block';
 
-```mdx
-import { CodeBlock } from 'rspress-plugin-code-block';
-
-# 我的文档
-
-这是一个JavaScript文件的示例：
-
-<CodeBlock src="./example.js" />
-
-这是一个TypeScript文件，但指定为javascript语法高亮：
-
-<CodeBlock src="./example.ts" type="javascript" />
+export default defineConfig({
+  plugins: [codeBlockPlugin()],
+});
 ```
 
-### 2. 文件路径说明
+## 使用方法
 
-- 使用相对路径，相对于当前MDX文件的位置
-- 支持各种代码文件格式（.js, .ts, .py, .xml, .json等）
-- 插件会自动根据文件扩展名识别语言类型
+在MDX文件中使用标准的markdown代码块语法，通过meta属性指定文件路径：
 
-### 3. Props
+### 基本用法
 
-| 属性 | 类型 | 描述 |
-|------|------|------|
-| src | string | 要显示的文件路径（必需） |
-| type | string | 语言类型，用于语法高亮（可选，默认根据文件扩展名自动识别） |
+```markdown
+```json src="./config.json"
+```
 
-### 4. 支持的文件类型
+### 指定语言类型
 
-插件支持以下文件扩展名的自动识别：
+```javascript src="./utils.js" type="javascript"
+```
 
+### 文件路径说明
+
+- **相对路径**：相对于当前MDX文件的位置
+- **支持任意位置**：文件可以放在docs目录的任何位置，不需要public目录
+- **自动语言识别**：根据文件扩展名自动识别语言类型
+- **纯静态嵌入**：在构建时读取文件内容，生成静态HTML
+
+## 支持的文件格式
+
+自动识别以下文件扩展名的语言类型：
 - JavaScript: `.js`, `.jsx`
 - TypeScript: `.ts`, `.tsx`
 - Python: `.py`
-- Java: `.java`
-- C/C++: `.c`, `.cpp`
-- C#: `.cs`
-- PHP: `.php`
-- Ruby: `.rb`
-- Go: `.go`
-- Rust: `.rs`
-- Swift: `.swift`
-- HTML: `.html`
-- CSS: `.css`, `.scss`, `.sass`, `.less`
-- JSON: `.json`
 - XML: `.xml`
-- YAML: `.yaml`, `.yml`
-- Markdown: `.md`
+- JSON: `.json`
+- HTML: `.html`
+- CSS: `.css`
 - Shell: `.sh`
-- SQL: `.sql`
-- Dockerfile: `.dockerfile`
-- Vue: `.vue`
-- Svelte: `.svelte`
+- 以及更多...
 
-## 示例
+## 完整示例
 
-### 项目结构
+### 文件结构
 ```
-my-docs/
-├── docs/
-│   ├── guide/
-│   │   └── getting-started.md
-│   └── examples/
-│       ├── example.js
-│       └── utils.ts
-├── rspress.config.ts
-└── package.json
+docs/
+├── index.mdx
+├── config/
+│   └── database.xml
+└── examples/
+    └── api.json
 ```
 
-### 在getting-started.md中使用
-```markdown
-# 快速开始
+### 在MDX中使用
+```mdx
+---
+title: 配置文档
+---
 
-## 示例代码
+# 系统配置
 
-下面是我们的JavaScript示例：
+## 数据库配置
 
-<CodeBlock src="../examples/example.js" />
+数据库连接配置文件：
 
-## 工具函数
-
-这是一个TypeScript工具函数：
-
-<CodeBlock src="../examples/utils.ts" />
+```xml src="./config/database.xml"
 ```
+
+## API配置
+
+API接口配置文件：
+
+```json src="./examples/api.json"
+```
+
+## 脚本示例
+
+启动脚本示例：
+
+```bash src="./scripts/start.sh"
+```
+
+## 特点
+
+- **编译时处理**：在构建阶段读取文件内容，生成静态代码块
+- **无需运行时加载**：不依赖fetch或网络请求
+- **支持相对路径**：文件可以放在与MDX文件相同或子目录中
+- **自动语法高亮**：根据文件类型自动选择语言高亮方案
+- **错误处理**：文件不存在时显示友好的错误信息
 
 ## 开发
 

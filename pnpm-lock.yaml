@@ -24,9 +24,15 @@ importers:
       '@types/react-dom':
         specifier: ^18.0.0
         version: 18.3.7(@types/react@18.3.23)
+      '@types/unist':
+        specifier: ^3.0.3
+        version: 3.0.3
       typescript:
         specifier: ^5.0.0
         version: 5.8.3
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
 
 packages:
 

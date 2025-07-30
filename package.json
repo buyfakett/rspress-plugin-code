@@ -1,6 +1,6 @@
 {
   "name": "rspress-plugin-code-block",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Rspress plugin to import and display file contents as code blocks",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,7 +24,9 @@
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "typescript": "^5.0.0"
+    "@types/unist": "^3.0.3",
+    "typescript": "^5.0.0",
+    "unist-util-visit": "^5.0.0"
   },
   "files": [
     "dist"

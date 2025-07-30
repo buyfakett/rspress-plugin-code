@@ -1,12 +1,8 @@
-/// <reference types="node" />
-
 import type { RspressPlugin } from '@rspress/core';
-import * as path from 'path';
-
-declare const __dirname: string;
 
 export function codeBlockPlugin(): RspressPlugin {
-  const componentPath = path.join(__dirname, 'CodeBlock.js');
+  // 使用相对于插件根目录的路径
+  const componentPath = './CodeBlock.js';
   
   return {
     name: 'rspress-plugin-code-block',
